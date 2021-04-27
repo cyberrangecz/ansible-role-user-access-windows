@@ -1,0 +1,12 @@
+
+galaxy_info:
+    role_name: kypo-user-access-windows
+    author: Kamil Andoniadis
+    description: Distribution of user SSH public key to authorized keys.
+    licence: MIT
+    min_ansible_version: 2.8
+    platforms:
+        - name: Windows
+          versions:
+              - all
+

@@ -1,0 +1,7 @@
+
+kypo_user_access_username:
+kypo_user_access_ssh_public_key: '{{ hostvars["man"]["user_public_key_path"] }}'
+kypo_user_access_password:
+kypo_user_access_admin: False
+kypo_user_access_rdp: True
+
