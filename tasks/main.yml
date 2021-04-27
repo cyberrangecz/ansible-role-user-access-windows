@@ -1,0 +1,49 @@
+
+- name: ensure existence of user
+  win_user:
+    name: '{{ kypo_user_access_username }}'
+    home_directory: 'C:\Users\{{ kypo_user_access_username }}'
+
+- name: ensure existence of SSH directory
+  win_file:
+    path: 'C:\Users\{{ kypo_user_access_username }}\.ssh'
+    state: directory
+
+- name: add public key to authorized keys
+  win_copy:
+    dest: 'C:\Users\{{ kypo_user_access_username }}\.ssh\authorized_keys'
+    content: '{{ lookup("file", kypo_user_access_ssh_public_key) }}'
+
+- name: set password if defined
+  win_user:
+    name: '{{ kypo_user_access_username }}'
+    password: '{{ kypo_user_access_password }}'
+  when: kypo_user_access_password is defined and kypo_user_access_password
+
+- name: add user to administrators group
+  win_user:
+    name: '{{ kypo_user_access_username }}'
+    groups:
+      - Administrators
+    groups_action: add
+  when: kypo_user_access_admin
+
+- name: enable RDP
+  win_regedit:
+    path: HKLM:\System\CurrentControlSet\Control\Terminal Server
+    name: fDenyTSConnections
+    data: 0
+    type: dword
+  when: kypo_user_access_rdp
+
+- name: enable RDP through firewall
+  win_firewall_rule:
+    name: Remote Desktop
+    localport: 3389
+    action: allow
+    direction: in
+    protocol: tcp
+    state: present
+    enabled: yes
+  when: kypo_user_access_rdp
+
