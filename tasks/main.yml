@@ -2,16 +2,21 @@
 - name: ensure existence of user
   win_user:
     name: '{{ kypo_user_access_username }}'
-    home_directory: 'C:\Users\{{ kypo_user_access_username }}'
+
+- name: ensure existence of user's profile
+  win_user_profile:
+      name: '{{ kypo_user_access_username }}'
+      username: '{{ kypo_user_access_username }}'
+  register: kypo_user_access_profile
 
 - name: ensure existence of SSH directory
   win_file:
-    path: 'C:\Users\{{ kypo_user_access_username }}\.ssh'
+    path: '{{ kypo_user_access_profile.path }}\.ssh'
     state: directory
 
 - name: add public key to authorized keys
   win_copy:
-    dest: 'C:\Users\{{ kypo_user_access_username }}\.ssh\authorized_keys'
+    dest: '{{ kypo_user_access_profile.path }}\.ssh\authorized_keys'
     content: '{{ lookup("file", kypo_user_access_ssh_public_key) }}'
 
 - name: set password if defined
