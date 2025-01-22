@@ -1,37 +1,36 @@
-
 - name: ensure existence of user
   win_user:
-    name: '{{ kypo_user_access_username }}'
+    name: '{{ user_access_username }}'
 
 - name: ensure existence of user's profile
   win_user_profile:
-      name: '{{ kypo_user_access_username }}'
-      username: '{{ kypo_user_access_username }}'
-  register: kypo_user_access_profile
+    name: '{{ user_access_username }}'
+    username: '{{ user_access_username }}'
+  register: user_access_profile
 
 - name: ensure existence of SSH directory
   win_file:
-    path: '{{ kypo_user_access_profile.path }}\.ssh'
+    path: '{{ user_access_profile.path }}\.ssh'
     state: directory
 
 - name: add public key to authorized keys
   win_copy:
-    dest: '{{ kypo_user_access_profile.path }}\.ssh\authorized_keys'
-    content: '{{ lookup("file", kypo_user_access_ssh_public_key) }}'
+    dest: '{{ user_access_profile.path }}\.ssh\authorized_keys'
+    content: '{{ lookup("file", user_access_ssh_public_key) }}'
 
 - name: set password if defined
   win_user:
-    name: '{{ kypo_user_access_username }}'
-    password: '{{ kypo_user_access_password }}'
-  when: kypo_user_access_password is defined and kypo_user_access_password
+    name: '{{ user_access_username }}'
+    password: '{{ user_access_password }}'
+  when: user_access_password is defined and user_access_password
 
 - name: add user to administrators group
   win_user:
-    name: '{{ kypo_user_access_username }}'
+    name: '{{ user_access_username }}'
     groups:
       - Administrators
     groups_action: add
-  when: kypo_user_access_admin
+  when: user_access_admin
 
 - name: enable RDP
   win_regedit:
@@ -39,7 +38,7 @@
     name: fDenyTSConnections
     data: 0
     type: dword
-  when: kypo_user_access_rdp
+  when: user_access_rdp
 
 - name: enable RDP through firewall
   win_firewall_rule:
@@ -50,5 +49,4 @@
     protocol: tcp
     state: present
     enabled: yes
-  when: kypo_user_access_rdp
-
+  when: user_access_rdp

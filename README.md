@@ -1,6 +1,6 @@
-# Ansible role - kypo-user-access-windows
+# Ansible role - user-access-windows
 
-This role was specially designed for KYPO sandbox. It sets user-access public
+This role was specially designed for sandbox. It sets user-access public
 SSH key as authorized key and optionally sets password to a user.
 
 ## Requirements
@@ -15,12 +15,12 @@ SSH key as authorized key and optionally sets password to a user.
 
 Optional parameters.
 
-* `kypo_user_access_username` - The name of the user to give SSH access to (default: `user-access`).
-* `kypo_user_access_password` - The password of user `kypo_user_access_password` (omitted by default).
-* `kypo_user_access_ssh_public_key` - The path on Ansible controller to SSH public key that will be set as authorized_key.
-Currently, only one key can be set as authorized_key. (default: `kypo_global_ssh_public_user_key`).
-* `kypo_user_access_admin` - A boolean value representing whether the user should have admin privileges (default: `False`).
-* `kypo_user_access_rdp` - A boolean value representing whether the target system should enable RDP access (default: `True`).
+* `user_access_username` - The name of the user to give SSH access to (default: `user-access`).
+* `user_access_password` - The password of user `user_access_password` (omitted by default).
+* `user_access_ssh_public_key` - The path on Ansible controller to SSH public key that will be set as authorized_key.
+Currently, only one key can be set as authorized_key. (default: `global_ssh_public_user_key`).
+* `user_access_admin` - A boolean value representing whether the user should have admin privileges (default: `False`).
+* `user_access_rdp` - A boolean value representing whether the target system should enable RDP access (default: `True`).
 
 ## Example
 
@@ -28,5 +28,5 @@ The simplest example.
 
 ```yml
 roles:
-    - role: kypo-user-access-windows
+    - role: user-access-windows
 ```

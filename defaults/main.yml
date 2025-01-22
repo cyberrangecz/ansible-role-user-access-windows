@@ -1,9 +1,7 @@
-
-kypo_user_access_username: user-access
-# Remove kypo_user_access_ssh_public_key_deprecated in future releases.
-kypo_user_access_ssh_public_key_deprecated: '{{ hostvars["man"]["user_public_key_path"] | default("") }}'
-kypo_user_access_ssh_public_key: '{{ kypo_global_ssh_public_user_key | default(kypo_user_access_ssh_public_key_deprecated) }}'
-kypo_user_access_password:
-kypo_user_access_admin: False
-kypo_user_access_rdp: True
-
+user_access_username: user-access
+# Remove user_access_ssh_public_key_deprecated in future releases.
+user_access_ssh_public_key_deprecated: '{{ hostvars["man"]["user_public_key_path"] | default("") }}'
+user_access_ssh_public_key: '{{ global_ssh_public_user_key | default(user_access_ssh_public_key_deprecated) }}'
+user_access_password:
+user_access_admin: False
+user_access_rdp: True
